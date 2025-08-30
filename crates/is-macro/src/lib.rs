@@ -1,4 +1,12 @@
+#![no_std]
+
 extern crate proc_macro;
+extern crate alloc;
+
+use alloc::{vec, format};
+use alloc::boxed::Box;
+use alloc::vec::Vec;
+use alloc::string::{String, ToString};
 
 use heck::ToSnakeCase;
 use proc_macro2::Span;
@@ -244,7 +252,7 @@ fn expand(input: DataEnum) -> Vec<ImplItem> {
                     if let Pair::Punctuated(v, _) = pair {
                         pair = Pair::End(v);
                     }
-                    fields.extend(std::iter::once(pair));
+                    fields.extend(core::iter::once(pair));
                 }
 
                 let variant = &v.ident;
@@ -273,7 +281,7 @@ fn expand(input: DataEnum) -> Vec<ImplItem> {
                         #[inline]
                         pub fn #name_of_expect(self) -> #ty
                         where
-                            Self: ::std::fmt::Debug,
+                            Self: ::core::fmt::Debug,
                         {
                             match self {
                                 Self::#variant(#fields) => (#fields),
